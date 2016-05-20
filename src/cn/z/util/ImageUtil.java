@@ -8,7 +8,15 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 public class ImageUtil {
-
+	/**
+	 * 图片缩放
+	 * @param img
+	 * @param ratio 缩放比例
+	 * @return BufferedImage
+	 * @author zhangyuxue
+	 * @version V1.0.0 ,2016年4月28日
+	 * @since V1.0.0
+	 */
 	public static BufferedImage filterScale(BufferedImage img, float ratio) {
 		final int w = (int) (ratio * img.getWidth());
 		final int h = (int) (ratio * img.getHeight());
@@ -21,7 +29,15 @@ public class ImageUtil {
 		}
 		return newImg;
 	}
-
+	/**
+	 * 阀值处理
+	 * @param img
+	 * @param threshold 阀值
+	 * @return BufferedImage
+	 * @author zhangyuxue
+	 * @version V1.0.0 ,2016年4月28日
+	 * @since V1.0.0
+	 */
 	public static BufferedImage filterThreshold(BufferedImage img, int threshold) {
 		final int w = img.getWidth();
 		final int h = img.getHeight();
@@ -46,7 +62,15 @@ public class ImageUtil {
 		}
 		return newImg;
 	}
-
+	/**
+	 * 边缘锐化
+	 * @param img
+	 * @return
+	 * @throws Exception BufferedImage
+	 * @author zhangyuxue
+	 * @version V1.0.0 ,2016年4月28日
+	 * @since V1.0.0
+	 */
 	public static BufferedImage filterSmooth(BufferedImage img) throws Exception {
 		final int SSIZE = 3;
 		int x, y, i, j, val;
@@ -97,6 +121,7 @@ public class ImageUtil {
 		final HashMap<BufferedImage, FontGlyphs> fontMap = new HashMap<BufferedImage, FontGlyphs>();
 		for (int i = 0; i < fontCount; i++) {
 			fontMap.put(img.getSubimage(w * i, 0, w, h), new FontGlyphs(fontText.charAt(i) + "", 0));
+			//ImageIO.write(img.getSubimage(w * i, 0, w, h), "JPG", new File("result/" + "xanga" + "/"  +fontText.charAt(i)+".jpg"));
 		}
 		return fontMap;
 	}

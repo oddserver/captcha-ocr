@@ -66,14 +66,21 @@ public class Pwntcha_Xanga {
 		fontMap.putAll(
 				ImageUtil.loadFontVariable("img/xanga/x_freesansbold_36_az_messed.bmp", "abcdefghijklmnopqrstuvwxyz"));
 
-		for (int k = 0; k < 100; k++) {
+		for (int k = 0; k < 1; k++) {
 			final StringBuilder result = new StringBuilder();
 			final String picFile = String.format("img/xanga/xanga_%03d.jpeg", k);
 			BufferedImage img = ImageIO.read(new File(picFile));
 			img = ImageUtil.filterContrast(img);
+			ImageIO.write(img, "JPG", new File("result/" + "xanga" + "/"  +"filterContrast"+".jpg"));
+			
 			img = fill_white_holes(img);
+			ImageIO.write(img, "JPG", new File("result/" + "xanga" + "/"  +"fill_white_holes"+".jpg"));
+			
 			img = ImageUtil.filterSmooth(img);
+			ImageIO.write(img, "JPG", new File("result/" + "xanga" + "/"  +"filterSmooth"+".jpg"));
+			
 			img = ImageUtil.filterContrast(img);
+			ImageIO.write(img, "JPG", new File("result/" + "xanga" + "/"  +"filterContrast"+".jpg"));
 
 			int x, y;
 			int r;

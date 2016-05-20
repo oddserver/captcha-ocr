@@ -10,18 +10,18 @@ import javax.imageio.ImageIO;
 import cn.z.util.CommonUtil;
 
 public class NoiseLine {
-	private final int M = 130;
-	private final int N = 36;
+	private final int M = 40;
+	private final int N = 150;
 	int a[][] = new int[this.M][this.N];
 	int[] b = new int[this.M];
-	int threshold = 20;
+	int threshold = 500;
 	int offset = 11;
 
 	public NoiseLine() {
 		int x = 0;
 		int y = 0;
 		try {
-			final BufferedImage img = ImageIO.read(new File("img/noise.jpeg"));
+			final BufferedImage img = ImageIO.read(new File("D:/Dev_Doc/Project/Java/app/Captcha/img/Ocr1test/1.png"));
 			this.renderImg = img;
 			final int width = img.getWidth();
 			final int height = img.getHeight();
@@ -91,7 +91,7 @@ public class NoiseLine {
 
 	public void saveImg() {
 		try {
-			ImageIO.write(this.renderImg, "JPG", new File("img/noiseRender.jpg"));
+			ImageIO.write(this.renderImg, "PNG", new File("img/0.png"));
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

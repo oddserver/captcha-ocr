@@ -74,6 +74,9 @@ public class Ocr2 {
 			while (weightlist.get(i++) > 1) {
 				length++;
 			}
+			if(length>1){
+				System.out.print(length +" ");
+			}
 			if (length > 12) {
 				subImgs.add(CommonUtil.removeBlank(img.getSubimage(i - length - 1, 0, length / 2, height),
 						whiteThreshold, 1));
@@ -84,6 +87,7 @@ public class Ocr2 {
 						CommonUtil.removeBlank(img.getSubimage(i - length - 1, 0, length, height), whiteThreshold, 1));
 			}
 		}
+		System.out.println();
 		return subImgs;
 	}
 
@@ -92,7 +96,7 @@ public class Ocr2 {
 		new File("train/" + clazz).mkdirs();
 		new File("result/" + clazz).mkdirs();
 
-		for (int i = 0; i < 30; ++i) {
+		for (int i = 1; i < 30; ++i) {
 			final String text = getAllOcr("img/" + clazz + "/" + i + ".jpg");
 			System.out.println(i + ".jpg = " + text);
 		}

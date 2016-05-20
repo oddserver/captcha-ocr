@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,11 +26,13 @@ public class CommonUtil {
 	public static void downloadImage(String url, String category) {
 		final HttpClient httpClient = HttpClientBuilder.create().build();
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 100; i < 200; i++) {
 			try {
 				final HttpGet httpGet = new HttpGet(url);
 				httpGet.setHeader("User-Agent",
 						"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36");
+				httpGet.setHeader("Referer",
+						"https://ipcrs.pbccrc.org.cn/page/login/loginreg.jsp");
 				// 请求http
 				final HttpResponse response = httpClient.execute(httpGet);
 				if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
@@ -39,7 +42,7 @@ public class CommonUtil {
 				String picName = "img/" + category;
 				final File f = new File(picName);
 				f.mkdirs();
-				picName += "/" + i + ".jpg";
+				picName += "/" + i + ".gif";
 				final InputStream inputStream = response.getEntity().getContent();
 				final OutputStream outStream = new FileOutputStream(picName);
 				IOUtils.copy(inputStream, outStream);
@@ -51,6 +54,40 @@ public class CommonUtil {
 			}
 		}
 	}
+	public static void downloadImage(String url, String category,int num) {
+		final HttpClient httpClient = HttpClientBuilder.create().build();
+
+		for (int i = 0; i < num; i++) {
+			try {
+				final HttpGet httpGet = new HttpGet(url+(new Date()).getTime()*1000+"");
+				httpGet.setHeader("User-Agent",
+						"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36");
+				/*httpGet.setHeader("Referer",
+						"https://ipcrs.pbccrc.org.cn/page/login/loginreg.jsp");*/
+				httpGet.setHeader("Referer",
+						"http://www.djjsq.cn/member.php?mod=register");
+				// 请求http
+				final HttpResponse response = httpClient.execute(httpGet);
+				if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+					System.err.println("Method failed: " + response.getStatusLine());
+				}
+				// save img
+				String picName = "img/" + category;
+				final File f = new File(picName);
+				f.mkdirs();
+				picName += "/" + i + ".png";
+				final InputStream inputStream = response.getEntity().getContent();
+				final OutputStream outStream = new FileOutputStream(picName);
+				IOUtils.copy(inputStream, outStream);
+				outStream.close();
+				System.out.println(picName + " OK!");
+				httpGet.releaseConnection();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	public static int isWhite(int colorInt, int whiteThreshold) {
 		final Color color = new Color(colorInt);
@@ -91,7 +128,46 @@ public class CommonUtil {
 		}
 		return img.getSubimage(0, start, width, end - start + 1);
 	}
-
+	
+	
+	public static void deal2img(BufferedImage img) {
+		final int width = img.getWidth();
+		final int height = img.getHeight();
+		for (int x = 0; x < width-1; x++) {
+			for (int y = 0; y < height-1;y++) {
+				if (isWhite(img.getRGB(x, y), 1) == 0) {
+					if(y>=1&&x>=1&&y<height-1&&x<width-1&&isthreeBlack((isWhite(img.getRGB(x, y-1), 600) == 1),(isWhite(img.getRGB(x, y+1), 600) == 1),(isWhite(img.getRGB(x-1, y), 600) == 1),(isWhite(img.getRGB(x+1, y), 600) == 1))){
+						img.setRGB(x, y, Color.WHITE.getRGB());
+					}else if((x==0&&y==0)||x==width-1&&y==0||x==0&&y==height-1||x==width-1&&y==height-1){
+						img.setRGB(x, y, Color.WHITE.getRGB());
+					}else if((y==0&&x<width-1)||(x==0&&y<height-1)||(y==height-1&&x<width-1)||(x==width-1&&y<height-1)){
+						img.setRGB(x, y, Color.WHITE.getRGB());
+					}
+				}
+			}
+		}
+	}
+	private static boolean isthreeBlack(boolean b, boolean c, boolean d,
+			boolean e) {
+		int count=0;
+		if(b){
+			count++;
+		}
+		if(c){
+			count++;
+		}
+		if(d)
+		{
+			count++;	
+		}
+		if(e){
+			count++;	
+		}
+		if(count>=3){
+			return true;
+		}
+		return false;
+	}
 	public static BufferedImage removeBackgroud(String picFile, int whiteThreshold) throws Exception {
 		final BufferedImage img = ImageIO.read(new File(picFile));
 		final int width = img.getWidth();
@@ -114,7 +190,7 @@ public class CommonUtil {
 		final File[] files = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".jpg");
+				return name.toLowerCase().endsWith(".jpg")||name.toUpperCase().endsWith("PNG");
 			}
 		});
 		for (final File file : files) {
@@ -135,8 +211,8 @@ public class CommonUtil {
 		});
 		for (final File file : files) {
 			final BufferedImage img = ImageIO.read(file);
-			final ScaleFilter sf = new ScaleFilter(16, 16);
-			BufferedImage imgdest = new BufferedImage(16, 16, img.getType());
+			final ScaleFilter sf = new ScaleFilter(10, 10);
+			BufferedImage imgdest = new BufferedImage(10, 10, img.getType());
 			imgdest = sf.filter(img, imgdest);
 			new File("train/svm/" + category).mkdirs();
 			ImageIO.write(imgdest, "JPG", new File("train/svm/" + category + "/" + file.getName()));

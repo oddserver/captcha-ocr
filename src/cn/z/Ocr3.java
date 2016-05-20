@@ -22,8 +22,8 @@ public class Ocr3 {
 		img = img.getSubimage(1, 1, img.getWidth() - 2, img.getHeight() - 2);
 		final int width = img.getWidth();
 		final int height = img.getHeight();
-		final double subWidth = width / 5.0;
-		for (int i = 0; i < 4; i++) {
+		final double subWidth = width / 6.0;
+		for (int i = 0; i < 6; i++) {
 			final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 			for (int x = (int) (1 + i * subWidth); x < (i + 1) * subWidth && x < width - 1; ++x) {
 				for (int y = 0; y < height; ++y) {
@@ -124,20 +124,23 @@ public class Ocr3 {
 			if (length > 2) {
 				subImgs.add(CommonUtil.removeBlank(img.getSubimage(i - length, 0, length, height), whiteThreshold, 0));
 			}
+			if (length > 1) {
+				subImgs.add(CommonUtil.removeBlank(img.getSubimage(i - length, 0, length, height), whiteThreshold, 0));
+			}
 		}
 		return subImgs;
 	}
 
 	public static void main(String[] args) throws Exception {
 		// ---step1 downloadImage
-		// String url = "http://game.tom.com/checkcode.php";
+		// String url = "http://10.1.6.102:7005/files/vercode/a83f3082f3ca40189e57a2f87983d9a0.jpg";
 		// //下载图片
-		// CommonUtil.downloadImage(url, clazz);
+		 //CommonUtil.downloadImage(url, clazz);
 		new File("img/" + clazz).mkdirs();
 		new File("train/" + clazz).mkdirs();
 		new File("result/" + clazz).mkdirs();
 		// 先删除result/ocr目录，开始识别
-		for (int i = 0; i < 30; ++i) {
+		for (int i = 0; i < 1; ++i) {
 			final String text = getAllOcr("img/" + clazz + "/" + i + ".jpg");
 			System.out.println(i + ".jpg = " + text);
 		}

@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="lib/fluent-hc-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar" sourcepath="D:/repository/commons-io/commons-io/2.4/commons-io-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/Filters.jar"/>
 	<classpathentry kind="lib" path="lib/libsvm.jar"/>
 	<classpathentry kind="output" path="bin"/>

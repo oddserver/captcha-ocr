@@ -9,14 +9,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-
+/**
+ * 生成字体
+ * @author zhangyuxue
+ * @data 2016年4月22日
+ * @version v1.0.0
+ */
 public class MakeFont {
 
 	public static void main(String[] args) throws Exception {
-		final int size = 32;
-		final int style = Font.BOLD;
+		final int size = 12;
+		final int style = Font.ROMAN_BASELINE;
 		final String text = "0123456789abcdefghijklmnopqrstuvwxyz".replace("", " ").trim();
-		final String fontName = "SansSerif";
+		final String fontName = "Georgia";
 
 		BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = img.createGraphics();
@@ -24,7 +29,7 @@ public class MakeFont {
 		final Font font = new Font(fontName, style, size);
 		g2.setFont(font);
 		final FontMetrics fm = g2.getFontMetrics();
-		img = new BufferedImage(fm.stringWidth(text), fm.getHeight(), BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(fm.stringWidth(text), fm.getHeight()+4, BufferedImage.TYPE_INT_RGB);
 		g2.dispose();
 		g2 = img.createGraphics();
 		g2.setColor(Color.WHITE);
@@ -34,7 +39,7 @@ public class MakeFont {
 		g2.setFont(font);
 		g2.drawString(text, 0, size);
 		g2.dispose();
-		ImageIO.write(img, "PNG", new File("makefont.png"));
+		ImageIO.write(img, "PNG", new File("makefontGeorgia.png"));
 	}
 
 }

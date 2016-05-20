@@ -254,6 +254,7 @@ public class svm_train {
 
 		while (true) {
 			final String line = fp.readLine();
+			System.out.println(line);
 			if (line == null) {
 				break;
 			}
